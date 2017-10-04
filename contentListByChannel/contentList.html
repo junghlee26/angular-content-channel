@@ -1,0 +1,70 @@
+﻿<div class="divide50"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6" style="width: auto;">
+            <h3>
+                <select id="sort-label" ng-options="ch.id as ch.category for ch in vm.channels" ng-model="vm.selectChannelId" ng-change="vm.changeValue()">
+                    <option value="" selected hidden="hidden">Select a channel</option>
+                </select>
+                sorted by
+                <select id="sort-label" ng-model="vm.sortContent">
+                    <option value="" selected hidden="hidden">Select..</option>
+                    <option value="-likesCount">Popularity</option>
+                    <option value="date">Newest</option>
+                </select>
+            </h3>
+        </div>
+    </div>
+</div>
+<div ng-show="vm.subjectId">
+    <div class="divide40"></div>
+    <div class="container no-padding">
+        <div class="col-sm-12 row ">
+            <div class="portfolio-box iso-call col-4-space" style="position: relative;">
+                <p style="margin-bottom: 20px; font-size:20px; margin-left:10px;">
+                    {{vm.contentList.length}}
+                    {{vm.contentList.length != 0 && vm.contentList.length != 1? 'Search results': 'Search result'}}
+                </p>
+                <div class="divide10"></div>
+
+                <div infinite-scroll='vm.loadMore()' infinite-scroll-disabled='vm.busy' infinite-scroll-distance='0' class="clearfix">
+                    <div class="col-sm-12 row ">
+                        <div class="col-xs-6 col-sm-3" style="height:350px;"  ng-repeat="c in vm.contentList | orderBy: vm.sortContent" >
+                            <a ui-sref="contentItemScreen({ contentId: c.id })">
+                                <div style="pointer-events: none">
+                                    <content-item content-id='c.id' class="xSmallSize" get-content-info='c.contentInfo = info' id="content-responsive" />
+                                </div>
+                            </a>
+                            <div class="sm-deck" style="padding-left: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 0px; background-color: white; border-bottom-style: inset;">
+                                <p style="margin-bottom:5px; font-size:14px;">
+                                    <b><a ui-sref="contentItemScreen({ contentId: c.id })">{{c.contentTitle | limitTo:30}}</a></b>
+                                </p>
+                                <div>
+                                    <a href="" ui-sref="profile(c.userId)">
+                                        <user-info user-id="c.userId" style="float:left;" />
+                                    </a>
+                                </div>
+                                <br />
+                                <div class="row" style="padding-top:10px;margin-left: 0px;margin-right: 0px;">
+                                    <div class="col-md-2" id="like-padding" style="float:left; width:45px;">
+                                        <likes-widget content-id='c.id' likes-count="c.likesCount = count" content-type="c.contentInfo.contentType" />
+                                    </div>
+                                    <div class="col-md-2" id="bookmark-padding">
+                                        <bookmark-toggle content-id='c.id' on-remove="bc.remove($index)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="vm.contentIds.length < 1">
+                <div class="center" style="margin-top: 90px; margin-bottom: 380px;">
+                    <h2 style="margin-top: 100px; margin-bottom: 10px; color:gray"><b>No contents added yet</b></h2>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
