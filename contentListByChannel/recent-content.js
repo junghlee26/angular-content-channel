@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module("BlakWealth")
+    angular.module("BWProject")
         .component("recentContent", {
             templateUrl: 'RecentContentTag/recent-content.html',
             controller: 'recentContentController as vm',
@@ -14,7 +14,7 @@
 
 (function () {
 
-    angular.module("BlakWealth")
+    angular.module("BWProject")
         .controller('recentContentController', recentContentController)
 
     recentContentController.$inject = ['listViewService', '$state'];
